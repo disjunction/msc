@@ -1,0 +1,13 @@
+<link rel=stylesheet href=/yolka-palka.css />
+<link href=/der/kruzenshtern.css rel=stylesheet />
+
+
+===
+
+<html class="de-de no-js" lang="de" dir="ltr" xmlns:bi="urn:schemas-microsoft-com:mscom:bi"> 
+
+<LINK REL="stylesheet" type="text/css" href = "/der/kruzenshtern.css" media="all" />
+<link rel="stylesheet" type="text/css" href = "/another-palka.css?z=afdasf//" media="all" />
+<script src="/global/en-us/homepage/renderingAssets/wt_capi.js" type="text/javascript"></script>
+</body>
+</html>

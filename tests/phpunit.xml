@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="./test_bootstrap.php"
+         backupGlobals="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         stopOnFailure="false"
+         strict="false"
+		 verbose="true">
+	<testsuites>
+		<testsuite name="basic functionality">
+			<directory suffix="Case.php">./cases</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>
