@@ -1,5 +1,5 @@
 <?php
-class Test_CheckerCase extends PHPUnit_Framework_TestCase 
+class Test_CheckerMockedCase extends PHPUnit_Framework_TestCase 
 {
     public function testCollectStyles() {
         $content = '

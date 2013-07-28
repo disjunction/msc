@@ -10,6 +10,6 @@ class Msc_CheckResult
     }
     
     public function __toString() {
-        return $this->isMobile? 'is mobile' : '';
+        return (string)((int)$this->isMobile);
     }
 }

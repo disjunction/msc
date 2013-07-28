@@ -14,4 +14,6 @@ class Mock_HttpClient implements Msc_HttpClientInterface
     public function get($url, $agent) {
         return strstr($agent, 'Mobile')? $this->_results[1] : $this->_results[0];
     }
+    
+    public function setFollow($follow) {}
 }

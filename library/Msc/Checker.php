@@ -2,6 +2,7 @@
 require_once MSC_LIB . '/HttpResult.php';
 require_once MSC_LIB . '/CheckResult.php';
 require_once MSC_LIB . '/HttpClientInterface.php';
+require_once MSC_LIB . '/Exception.php';
 
 class Msc_Checker
 {
@@ -18,8 +19,6 @@ class Msc_Checker
         $this->_client = $client;
     }
     
-    
-    
     /**
      * @param string $url
      * @return Msc_CheckResult
@@ -30,6 +29,20 @@ class Msc_Checker
         $results[] = $this->_client->get($url, self::UA_DESKTOP);
         
         $result = new Msc_CheckResult();
+        
+        if ($results[0]->code != $results[1]->code) {
+            return new Msc_CheckResult(true, 'different codes: ' . $results[0]->code . ' and ' . $results[1]->code);
+        }
+        
+        if (substr($results[0]->code, 0, 1) == '3' && $results[0]->getRedirectLocation() != $results[1]->getRedirectLocation()) {
+            return new Msc_CheckResult(true, 'different redirections');
+        }
+        
+        for ($i = 0; $i < count($results); $i++) {
+            if ($results[$i]->code != 200) {
+                return new Msc_CheckResult(false, 'http response ' . $results[$i]->code);
+            }
+        }
         
         if (!$this->compareStyles($results[0]->content, $results[1]->content)) {
             return new Msc_CheckResult(true, 'different styles');
