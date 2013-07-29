@@ -18,12 +18,11 @@ class Front_Check
         $checker = new Msc_Checker(new Msc_HttpClientCurl(), @$_GET['debug']);
         
         try {
-            $result = $checker->check($url);
-            die($result . ' ' . $result->reason);
+            die($checker->check($url));
         } catch (Msc_Exception $e) {
-            die('0 site unavailable: ' . $e->getMessage());
+            die("not mobile\nsite unavailable: " . $e->getMessage());
         } catch (Exception $e) {
-            die('0 unexpected exception :(');
+            die('not mobile\nunexpected exception :(');
         }
         
     }
