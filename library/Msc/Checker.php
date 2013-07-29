@@ -13,10 +13,16 @@ class Msc_Checker
      * @var Msc_HttpClientInterface
      */
     protected $_client;
+
+    /**
+     * @var boolean
+     */
+    protected $_debug;
     
-    public function __construct(Msc_HttpClientInterface $client)
+    public function __construct(Msc_HttpClientInterface $client, $debug = false)
     {
         $this->_client = $client;
+        $this->_debug = $debug;
     }
     
     /**
@@ -25,8 +31,13 @@ class Msc_Checker
      */
     public function check($url) {
         $results = array();
+        $this->_client->setFollow(false);
         $results[] = $this->_client->get($url, self::UA_MOBILE);
         $results[] = $this->_client->get($url, self::UA_DESKTOP);
+
+        if ($this->_debug) {
+            print_r($results);
+        }
         
         $result = new Msc_CheckResult();
         
@@ -34,12 +45,26 @@ class Msc_Checker
             return new Msc_CheckResult(true, 'different codes: ' . $results[0]->code . ' and ' . $results[1]->code);
         }
         
-        if (substr($results[0]->code, 0, 1) == '3' && $results[0]->getRedirectLocation() != $results[1]->getRedirectLocation()) {
-            return new Msc_CheckResult(true, 'different redirections');
+        // if both are redirects
+        if (substr($results[0]->code, 0, 1) == '3') {
+            if ($results[0]->getRedirectLocation() == $results[1]->getRedirectLocation()) {
+                // if both have same redirection, then follow till the end and continue analysing
+                $this->_client->setFollow(true);
+                $results = array();
+                $results[] = $this->_client->get($url, self::UA_MOBILE);
+                $results[] = $this->_client->get($url, self::UA_DESKTOP);
+                
+                if ($this->_debug) {
+                    print_r($results);
+                }
+            
+            } else {
+                return new Msc_CheckResult(true, 'different redirections');
+            }
         }
         
         for ($i = 0; $i < count($results); $i++) {
-            if ($results[$i]->code != 200) {
+            if ($results[$i]->code >= 400) {
                 return new Msc_CheckResult(false, 'http response ' . $results[$i]->code);
             }
         }

@@ -15,7 +15,8 @@ class Front_Check
             $url = 'http://' . $url;
         }
         
-        $checker = new Msc_Checker(new Msc_HttpClientCurl());
+        $checker = new Msc_Checker(new Msc_HttpClientCurl(), @$_GET['debug']);
+        
         try {
             $result = $checker->check($url);
             die($result . ' ' . $result->reason);
