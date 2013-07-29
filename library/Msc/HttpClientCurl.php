@@ -42,6 +42,12 @@ class Msc_HttpClientCurl implements Msc_HttpClientInterface
         $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $header = trim(substr($result, 0, $headerSize));
         $content = trim(substr($result, $headerSize));
-        return new Msc_HttpResult($content, curl_getinfo($ch, CURLINFO_HTTP_CODE), $header);
+        
+        return new Msc_HttpResult($content,
+                                   curl_getinfo($ch, CURLINFO_HTTP_CODE),
+                                   $header,
+                                   curl_getinfo($ch, CURLINFO_EFFECTIVE_URL));
+
+        
     }
 }

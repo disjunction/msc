@@ -57,9 +57,12 @@ class Msc_Checker
                 if ($this->_debug) {
                     print_r($results);
                 }
-            
+                
+                if ($results[0]->effectiveUrl != $results[1]->effectiveUrl) {
+                    return new Msc_CheckResult(true, 'different final locations');
+                }
             } else {
-                return new Msc_CheckResult(true, 'different redirections');
+                return new Msc_CheckResult(true, 'different redirections ' . $results[0]->getRedirectLocation() . ' | ' . $results[1]->getRedirectLocation() );
             }
         }
         
