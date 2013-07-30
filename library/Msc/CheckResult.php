@@ -1,5 +1,7 @@
 <?php
-class Msc_CheckResult
+namespace Msc;
+
+class CheckResult
 {
     public $isMobile;
     public $reason;
@@ -10,6 +12,6 @@ class Msc_CheckResult
     }
     
     public function __toString() {
-        return ($this->isMobile? 'not ' : '') . "mobile\n" . $this->reason;
+        return ($this->isMobile? '' : 'not ') . "mobile\n" . $this->reason;
     }
 }

@@ -1,5 +1,7 @@
 <?php
-class Mock_HttpClient implements Msc_HttpClientInterface
+namespace Msc;
+
+class Mock_HttpClient implements HttpClientInterface
 {
     protected $_results = array();
     
@@ -7,7 +9,7 @@ class Mock_HttpClient implements Msc_HttpClientInterface
         $str = file_get_contents(__DIR__ . '/../data/' . $filename);
         $parts = explode('===', $str);
         foreach ($parts as $part) {
-            $this->_results[] = new Msc_HttpResult(trim($part));
+            $this->_results[] = new HttpResult(trim($part));
         }
     }
     

@@ -1,5 +1,7 @@
 <?php
-class Msc_FileTask
+namespace Msc;
+
+class FileTask
 {
     public $infile;
     public $outfile;

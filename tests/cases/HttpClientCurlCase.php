@@ -1,8 +1,10 @@
 <?php
-class Test_HttpClientCurl extends PHPUnit_Framework_TestCase
+namespace Msc;
+
+class Test_HttpClientCurl extends \PHPUnit_Framework_TestCase
 {
     public function testGetContent() {
-        $client = new Msc_HttpClientCurl();
+        $client = new HttpClientCurl();
         $response = $client->get('http://local.pluseq.com/msc/tests/sites/same_styles.html', 'some');
         $this->assertGreaterThan(0, strlen($response->content));
         $this->assertGreaterThan(0, strlen($response->header));
@@ -10,7 +12,7 @@ class Test_HttpClientCurl extends PHPUnit_Framework_TestCase
     }
     
     public function testRedirectPage() {
-        $client = new Msc_HttpClientCurl();
+        $client = new HttpClientCurl();
         $response = $client->get('http://local.pluseq.com/msc/tests/sites/same_redirect.php', 'some');
         $this->assertGreaterThan(0, strlen($response->content));
         $this->assertGreaterThan(0, strlen($response->header));

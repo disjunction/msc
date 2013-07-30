@@ -1,20 +1,22 @@
 <?php
+namespace Msc;
+
 require_once MSC_LIB . '/FileTask.php';
 require_once MSC_LIB . '/FileRepo.php';
 
-class Msc_TaskController
+class TaskController
 {
     /**
-     * @var Msc_FileRepo
+     * @var FileRepo
      */
     protected $_inRepo;
     
     /**
-     * @var Msc_FileRepo
+     * @var FileRepo
      */
     protected $_outRepo;
     
-    public function __construct(Msc_FileRepo $inRepo, Msc_FileRepo $outRepo) {
+    public function __construct(FileRepo $inRepo, FileRepo $outRepo) {
         $this->_inRepo = $inRepo;
         $this->_outRepo = $outRepo;
     }
@@ -24,7 +26,7 @@ class Msc_TaskController
         $files = $this->_outRepo->getAllFilenames();
         $result = array();
         foreach ($files as $file) {
-            $fileTask = new Msc_FileTask($this->_inRepo->fullDir . '/' . $file,
+            $fileTask = new FileTask($this->_inRepo->fullDir . '/' . $file,
                                          $this->_outRepo->fullDir . '/' . $file);
             $result[] = $fileTask->toArray();
         }

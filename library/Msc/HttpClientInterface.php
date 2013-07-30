@@ -1,5 +1,7 @@
 <?php
-interface Msc_HttpClientInterface
+namespace Msc;
+
+interface HttpClientInterface
 {
     /**
      * @param string $url

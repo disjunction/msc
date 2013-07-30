@@ -1,5 +1,7 @@
 <?php
-class Msc_HttpResult
+namespace Msc;
+
+class HttpResult
 {
     public $content;
     public $code;
@@ -17,7 +19,7 @@ class Msc_HttpResult
         if ($this->code < 300 || $this->code >= 400) return false;
         $r = preg_match('/^Location\s*:\s*(.+)$/mxi', $this->header, $matches);
         if (!$r) {
-            throw new Msc_Exception('redirection response has no Location header');
+            throw new Exception('redirection response has no Location header');
         }
         return trim($matches[1]);
     }

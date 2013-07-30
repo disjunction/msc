@@ -1,4 +1,6 @@
 <?php
+namespace Msc;
+
 include 'bootstrap.php';
 
 class Front_Check
@@ -15,13 +17,13 @@ class Front_Check
             $url = 'http://' . $url;
         }
         
-        $checker = new Msc_Checker(new Msc_HttpClientCurl(), @$_GET['debug']);
+        $checker = new Checker(new HttpClientCurl(), @$_GET['debug']);
         
         try {
             die($checker->check($url));
-        } catch (Msc_Exception $e) {
-            die("not mobile\nsite unavailable: " . $e->getMessage());
         } catch (Exception $e) {
+            die("not mobile\nsite unavailable: " . $e->getMessage());
+        } catch (\Exception $e) {
             die('not mobile\nunexpected exception :(');
         }
         

@@ -1,12 +1,14 @@
 <?php
+namespace Msc;
+
 include 'bootstrap.php';
 
 class Front_Gw
 {
     public function run() {
-        $in = new Msc_FileRepo("in");
-        $out = new Msc_FileRepo("out");
-        $tc = new Msc_TaskController($in, $out);
+        $in = new FileRepo("in");
+        $out = new FileRepo("out");
+        $tc = new TaskController($in, $out);
         echo $tc->actionFullList();
     }
 

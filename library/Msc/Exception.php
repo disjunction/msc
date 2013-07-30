@@ -1,2 +1,3 @@
 <?php
-class Msc_Exception extends RuntimeException {}
+namespace Msc;
+class Exception extends \RuntimeException {}

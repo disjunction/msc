@@ -1,16 +1,18 @@
 <?php
+namespace Msc;
+
 require_once MSC_LIB . '/HttpResult.php';
 require_once MSC_LIB . '/CheckResult.php';
 require_once MSC_LIB . '/HttpClientInterface.php';
 require_once MSC_LIB . '/Exception.php';
 
-class Msc_Checker
+class Checker
 {
     const UA_DESKTOP = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:9.0) Gecko/20100101 Firefox/9.0';
     const UA_MOBILE = 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_2 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8H7 Safari/6533.18.5';
     
     /**
-     * @var Msc_HttpClientInterface
+     * @var HttpClientInterface
      */
     protected $_client;
 
@@ -19,7 +21,7 @@ class Msc_Checker
      */
     protected $_debug;
     
-    public function __construct(Msc_HttpClientInterface $client, $debug = false)
+    public function __construct(HttpClientInterface $client, $debug = false)
     {
         $this->_client = $client;
         $this->_debug = $debug;
@@ -27,7 +29,7 @@ class Msc_Checker
     
     /**
      * @param string $url
-     * @return Msc_CheckResult
+     * @return CheckResult
      */
     public function check($url) {
         $results = array();
@@ -39,10 +41,10 @@ class Msc_Checker
             print_r($results);
         }
         
-        $result = new Msc_CheckResult();
+        $result = new CheckResult();
         
         if ($results[0]->code != $results[1]->code) {
-            return new Msc_CheckResult(true, 'different codes: ' . $results[0]->code . ' and ' . $results[1]->code);
+            return new CheckResult(true, 'different codes: ' . $results[0]->code . ' and ' . $results[1]->code);
         }
         
         // if both are redirects
@@ -59,24 +61,24 @@ class Msc_Checker
                 }
                 
                 if ($results[0]->effectiveUrl != $results[1]->effectiveUrl) {
-                    return new Msc_CheckResult(true, 'different final locations');
+                    return new CheckResult(true, 'different final locations');
                 }
             } else {
-                return new Msc_CheckResult(true, 'different redirections ' . $results[0]->getRedirectLocation() . ' | ' . $results[1]->getRedirectLocation() );
+                return new CheckResult(true, 'different redirections ' . $results[0]->getRedirectLocation() . ' | ' . $results[1]->getRedirectLocation() );
             }
         }
         
         for ($i = 0; $i < count($results); $i++) {
             if ($results[$i]->code >= 400) {
-                return new Msc_CheckResult(false, 'http response ' . $results[$i]->code);
+                return new CheckResult(false, 'http response ' . $results[$i]->code);
             }
         }
         
         if (!$this->compareStyles($results[0]->content, $results[1]->content)) {
-            return new Msc_CheckResult(true, 'different styles');
+            return new CheckResult(true, 'different styles');
         }
         
-        return new Msc_CheckResult(false, 'none of tests matched');
+        return new CheckResult(false, 'none of tests matched');
     }
     
     public function collectStyles($content) {

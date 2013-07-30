@@ -1,5 +1,7 @@
 <?php
-class Test_CheckerMockedCase extends PHPUnit_Framework_TestCase 
+namespace Msc;
+
+class Test_CheckerMockedCase extends \PHPUnit_Framework_TestCase 
 {
     public function testCollectStyles() {
         $content = '
@@ -35,7 +37,7 @@ class Test_CheckerMockedCase extends PHPUnit_Framework_TestCase
  <link rel="stylesheet" type="text/css" href="/styles/workarounds.ie7.css?v=1375029092" media="screen" />
  <![endif]-->';
         
-        $checker = new Msc_Checker(new Mock_HttpClient('same_content.txt'));
+        $checker = new Checker(new Mock_HttpClient('same_content.txt'));
         $styles = $checker->collectStyles($content);
         $this->assertCount(6, $styles);
         $this->assertEquals('/styles/doc.css', $styles[0]);
@@ -44,27 +46,27 @@ class Test_CheckerMockedCase extends PHPUnit_Framework_TestCase
     }
     
     public function testSameContent() {
-        $checker = new Msc_Checker(new Mock_HttpClient('same_content.txt'));
+        $checker = new Checker(new Mock_HttpClient('same_content.txt'));
         $this->assertEquals(false, $checker->check('http://whatever.com')->isMobile);
     }
     
     public function testIrrelevantDifferences() {
-        $checker = new Msc_Checker(new Mock_HttpClient('irrelevant_differences.txt'));
+        $checker = new Checker(new Mock_HttpClient('irrelevant_differences.txt'));
         $this->assertEquals(false, $checker->check('http://whatever.com')->isMobile);
     }
     
     public function testSameStyles() {
-        $checker = new Msc_Checker(new Mock_HttpClient('same_styles.txt'));
+        $checker = new Checker(new Mock_HttpClient('same_styles.txt'));
         $this->assertEquals(false, $checker->check('http://whatever.com')->isMobile);
     }
     
     public function testDifferentStyles() {
-        $checker = new Msc_Checker(new Mock_HttpClient('different_styles.txt'));
+        $checker = new Checker(new Mock_HttpClient('different_styles.txt'));
         $this->assertEquals(true, $checker->check('http://whatever.com')->isMobile);
     }
     
     public function testDifferentStyleCount() {
-        $checker = new Msc_Checker(new Mock_HttpClient('different_style_count.txt'));
+        $checker = new Checker(new Mock_HttpClient('different_style_count.txt'));
         $this->assertEquals(true, $checker->check('http://whatever.com')->isMobile);
     }
 }

@@ -1,5 +1,7 @@
 <?php
-class Msc_HttpClientCurl implements Msc_HttpClientInterface
+namespace Msc;
+
+class HttpClientCurl implements HttpClientInterface
 {
     protected $_curlOpts = array(
                     CURLOPT_REFERER => "http://traffic.comboapp.com/apps/traffrouter/",
@@ -16,7 +18,6 @@ class Msc_HttpClientCurl implements Msc_HttpClientInterface
     
     /**
      * @param string $url
-     * @throws Tr_DriverException
      * @return curl handle
      */
     public function makeCurl()
@@ -36,14 +37,14 @@ class Msc_HttpClientCurl implements Msc_HttpClientInterface
         
         if (curl_errno($ch)) {
             $message = 'CURL ERROR: ' . curl_error($ch) . '; url=' . $url;
-            throw new Msc_Exception($message);
+            throw new Exception($message);
         }
         
         $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $header = trim(substr($result, 0, $headerSize));
         $content = trim(substr($result, $headerSize));
         
-        return new Msc_HttpResult($content,
+        return new HttpResult($content,
                                    curl_getinfo($ch, CURLINFO_HTTP_CODE),
                                    $header,
                                    curl_getinfo($ch, CURLINFO_EFFECTIVE_URL));

@@ -1,5 +1,7 @@
 <?php
-class Msc_FileRepo
+namespace Msc;
+
+class FileRepo
 {
     public $dir;
     public $fullDir;
@@ -15,7 +17,7 @@ class Msc_FileRepo
     {
         $full = $this->fullDir . DIRECTORY_SEPARATOR . $filename;
         if (!file_exists($full)) {
-            throw new Msc_Exception('file not found: ' . $full);
+            throw new Exception('file not found: ' . $full);
         }
         return file_get_contents($full);
     }
