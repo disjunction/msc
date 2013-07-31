@@ -9,6 +9,7 @@ class Test_FileProcessorCase extends \PHPUnit_Framework_TestCase
         $task = new FileTask(realpath(__DIR__ . '/../data/list.csv'), $out);
         $processor = new FileProcessor($task, $checker);
         $processor->process();
-        var_dump(file_get_contents($out));
+        $lines = file($out);
+        $this->assertCount(4, $lines);
     }
 }
