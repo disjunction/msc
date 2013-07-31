@@ -10,8 +10,12 @@ class CheckResult
         $this->isMobile = $isMobile;
         $this->reason = $reason;
     }
+
+    public function getStatus() {
+        return ($this->isMobile? '' : 'not ') . "mobile";
+    }
     
     public function __toString() {
-        return ($this->isMobile? '' : 'not ') . "mobile\n" . $this->reason;
+        return $this->getStatus() . "\n" . $this->reason;
     }
 }

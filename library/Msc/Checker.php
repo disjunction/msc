@@ -32,6 +32,8 @@ class Checker
      * @return CheckResult
      */
     public function check($url) {
+        substr($url, 0, 4) != 'http' and $url = 'http://' . $url;
+        
         $results = array();
         $this->_client->setFollow(false);
         $results[] = $this->_client->get($url, self::UA_MOBILE);

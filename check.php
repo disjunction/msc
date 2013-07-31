@@ -13,10 +13,6 @@ class Front_Check
         }
         
         $url = $_GET['s'];
-        if (substr($_GET['s'], 0, 4) != 'http') {
-            $url = 'http://' . $url;
-        }
-        
         $checker = new Checker(new HttpClientCurl(), @$_GET['debug']);
         
         try {
