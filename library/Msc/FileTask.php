@@ -44,6 +44,9 @@ class FileTask
         return $this->_countLines($this->infile);
     }
     
+    /**
+     * @return number|string
+     */
     public function getProcessed() {
         return $this->_countLines($this->outfile);
     }
@@ -56,7 +59,7 @@ class FileTask
         return array(
             'file' => $this->getBaseName(),
             'lines' => $this->getLines(),
-            'processed' => $this->getProcessed()
+            'processed' => $this->getProcessed() < 0? 'not yet' : $this->getProcessed()
         );
     }
     
@@ -74,7 +77,7 @@ class FileTask
             strstr($row[$i], '(out)') and $this->_outColumn = $i;
         }
         if ($this->_inColumn === null || $this->_outColumn === null) {
-            throw new Exception("first linke doesnt contain in/out markers in " . $this->outfile);
+            throw new Exception("first line doesnt contain in/out markers in " . $this->outfile);
         } 
     }
     

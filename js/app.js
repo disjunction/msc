@@ -35,6 +35,9 @@ function TasksController($scope, $http) {
         });
     };
 
+    
+    setInterval($scope.loadList, 2000);
+    
     $scope.remove = function(task) {
         //console.log( Array.prototype.slice.call(arguments));
         bootbox.confirm("Are you sure you want to delete " + task.file  + "?", function(doIt) {

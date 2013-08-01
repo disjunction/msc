@@ -9,7 +9,10 @@ class HttpClientCurl implements HttpClientInterface
                     CURLOPT_FOLLOWLOCATION => false,
                     CURLOPT_HEADER => true,
                     CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_MAXREDIRS => 5);
+                    CURLOPT_MAXREDIRS => 5,
+                    CURLOPT_CONNECTTIMEOUT => 3,
+                    CURLOPT_TIMEOUT => 30
+                    );
     
     public function setFollow($value)
     {
