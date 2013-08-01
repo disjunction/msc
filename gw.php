@@ -3,18 +3,25 @@ namespace Msc;
 
 include 'bootstrap.php';
 
+/**
+ * front controller for web application
+ */
 class Front_Gw
 {
-    public function run() {
-        $in = new FileRepo("in");
-        $out = new FileRepo("out");
-        $tc = new TaskController($in, $out);
-        echo $tc->actionFullList();
-    }
-
     public static function runStatic() {
-        $o = new self();
-        $o->run();
+        $tc = new TaskController(new FileRepo("in"), new FileRepo("out"), $_REQUEST);
+        switch (@$_REQUEST['a']) {
+            case 'upload' :
+                $result = $tc->actionUpload();
+                break;
+            case 'remove' :
+                $result = $tc->actionRemove();
+                break;
+            default :
+                $result = $tc->actionFullList();
+        }
+
+        echo $result;
     }
 }
 

@@ -3,9 +3,12 @@ namespace Msc;
 
 include 'bootstrap.php';
 
+/**
+ * front controller for CLI application
+ */
 class Front_Process
 {
-    public function run() {
+    public static function runStatic() {
         global $argv;
         
         $checker = new Checker(new HttpClientCurl());
@@ -13,11 +16,6 @@ class Front_Process
         $task = new FileTask('data/in/' . $fileName, 'data/out/' . $fileName);
         $processor = new FileProcessor($task, $checker);
         $processor->process(function($site, $result) {echo $site, ":\n", $result, "\n";});
-    }
-
-    public static function runStatic() {
-        $o = new self();
-        $o->run();
     }
 }
 

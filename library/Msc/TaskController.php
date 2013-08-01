@@ -16,14 +16,16 @@ class TaskController
      */
     protected $_outRepo;
     
-    public function __construct(FileRepo $inRepo, FileRepo $outRepo) {
+    protected $_request;
+    
+    public function __construct(FileRepo $inRepo, FileRepo $outRepo, array $request) {
         $this->_inRepo = $inRepo;
         $this->_outRepo = $outRepo;
+        $this->_request = $request;
     }
     
-    public function actionFullList()
-    {
-        $files = $this->_outRepo->getAllFilenames();
+    public function actionFullList() {
+        $files = array_unique(array_merge($this->_outRepo->getAllFilenames(), $this->_inRepo->getAllFilenames()));
         $result = array();
         foreach ($files as $file) {
             $fileTask = new FileTask($this->_inRepo->fullDir . '/' . $file,
@@ -31,5 +33,15 @@ class TaskController
             $result[] = $fileTask->toArray();
         }
         return json_encode($result);
+    }
+    
+    public function actionUpload() {
+        $this->_inRepo->upload($_FILES['file']);
+    }
+    
+    public function actionRemove() {
+        $file = $this->_request['f'];
+        $this->_inRepo->remove($file);
+        $this->_outRepo->remove($file);
     }
 }

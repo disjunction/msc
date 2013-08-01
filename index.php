@@ -1,34 +1,51 @@
 <!doctype html>
 <html lang="en" ng-app>
-    <head>
+<head>
     <meta charset="utf-8">
     <title>MSC Admin</title>
-    <link rel="stylesheet" href="css/app.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+
+    <!-- twitter bootstrap -->
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+    <script src="js/bootstrap.file-input.js"></script>
+    <script src="js/bootbox.min.js"></script>
+    
     <script src="js/angular.min.js"></script>
-    <script src="js/FileTask.js"></script>
+    
+    <!-- simple ajax file uploaded -->
+    <script src="js/uploader.js"></script>
+    
+    <!-- MSC app scipts -->
+    <link href="msc.css" rel="stylesheet" />
     <script src="js/app.js"></script>
-    </head>
-    <body>
-        <div ng-controller="TasksController">
-            <table>
-                <thead>
-                    <tr>
-                        <th>File</th>
-                        <th>Total Lines</th>
-                        <th>Processed</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="task in tasks">
-                        <td>{{task.file}}</td>
-                        <td>{{task.lines}}</td>
-                        <td>{{task.processed}}</td>
-                        <td>X</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </body>
+
+</head>
+<body>
+    <div ng-controller="TasksController" id="TasksController">
+        <form id="upload-form"><input type="file" title="Upload CSV file" class="btn-primary"></form>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>File</th>
+                    <th>Total Lines</th>
+                    <th>Processed</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="task in tasks">
+                    <td>{{task.file}}</td>
+                    <td>{{task.lines}}</td>
+                    <td>{{task.processed}}</td>
+                    <td>
+                        <a href="data/out/{{task.file}}" title="Download"><i class="icon-download"></i></a>
+                        <a href="#" ng-click="remove(task)" title="Delete"><i class="icon-remove"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
 </html>
