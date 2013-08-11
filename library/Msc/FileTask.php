@@ -13,11 +13,15 @@ class FileTask
     
     public function __construct($infile, $outfile) {
         $this->infile = $infile;
-        $this->outfile = $outfile;
+        $this->outfile = self::outizeFilename($outfile);
     }
     
     public function getBaseName() {
         return basename($this->infile);
+    }
+    
+    public function getOutBaseName() {
+        return basename($this->outfile);
     }
     
     public function isFinished() {
@@ -58,8 +62,9 @@ class FileTask
     public function toArray() {
         return array(
             'file' => $this->getBaseName(),
+            'outfile' => $this->getOutBaseName(),
             'lines' => $this->getLines(),
-            'processed' => $this->getProcessed() < 0? 'not yet' : $this->getProcessed()
+            'processed' => $this->getProcessed() < 0? 0 : $this->getProcessed()
         );
     }
     
@@ -95,5 +100,23 @@ class FileTask
     public function getOutColumn() {
         null === $this->_outColumn and $this->_parseColumns();
         return $this->_outColumn;
+    }
+    
+    /**
+     * change filename so that files clearly looks as result file
+     * @param string $filename
+     * @return string
+     */
+    public static function outizeFilename($filename) {
+        return preg_replace('/\.csv$/i', '.out.csv', $filename);
+    }
+    
+    /**
+     * opposite for ::outizeFilename()
+     * @param string $filename
+     * @return string
+     */
+    public static function deoutizeFilename($filename) {
+        return preg_replace('/\.out\.csv$/i', '.csv', $filename);
     }
 }

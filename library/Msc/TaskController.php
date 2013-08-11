@@ -25,11 +25,13 @@ class TaskController
     }
     
     public function actionFullList() {
-        $files = array_unique(array_merge($this->_outRepo->getAllFilenames(), $this->_inRepo->getAllFilenames()));
+        $outNames = array_map('\Msc\FileTask::deoutizeFilename', $this->_outRepo->getAllFilenames());
+        $files = array_unique(array_merge($this->_inRepo->getAllFilenames(), $outNames));
+        sort($files);
         $result = array();
         foreach ($files as $file) {
             $fileTask = new FileTask($this->_inRepo->fullDir . '/' . $file,
-                                         $this->_outRepo->fullDir . '/' . $file);
+                                     $this->_outRepo->fullDir . '/' . $file);
             $result[] = $fileTask->toArray();
         }
         return json_encode($result);
@@ -42,6 +44,6 @@ class TaskController
     public function actionRemove() {
         $file = $this->_request['f'];
         $this->_inRepo->remove($file);
-        $this->_outRepo->remove($file);
+        $this->_outRepo->remove(FileTask::outizeFilename($file));
     }
 }

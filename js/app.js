@@ -18,8 +18,13 @@ function TasksController($scope, $http) {
         $http({method: 'GET', url: 'gw.php'}).
         success(function(data, status, headers, config) {
             $scope.tasks = [];
-            for (var i in data) {
-                $scope.tasks.push(new FileTask(data[i]));
+            if (Array.isArray(data)) {
+                $scope.tasks = [];
+                for (var i in data) {
+                    $scope.tasks.push(new FileTask(data[i]));
+                }
+            } else {
+                console.log("unexpected response: " + data);
             }
         }).
         error(function(data, status, headers, config) {

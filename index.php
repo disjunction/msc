@@ -28,19 +28,24 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>File</th>
+                    <th>Source File</th>
                     <th>Total Lines</th>
                     <th>Processed</th>
-                    <th>Actions</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="task in tasks">
-                    <td>{{task.file}}</td>
-                    <td>{{task.lines}}</td>
-                    <td>{{task.processed}}</td>
                     <td>
-                        <a href="data/out/{{task.file}}" title="Download"><i class="icon-download"></i></a>
+                        {{task.file}}
+                        <a ng-show="task.lines>0" href="data/in/{{task.file}}" title="Download"><i class="icon-download"></i></a>
+                    </td>
+                    <td>{{task.lines}}</td>
+                    <td>
+                        {{task.processed}}
+                        <a ng-show="task.processed" href="data/out/{{task.outfile}}" title="Download"><i class="icon-download"></i></a>
+                    </td>
+                    <td>
                         <a href="#" ng-click="remove(task)" title="Delete"><i class="icon-remove"></i></a>
                     </td>
                 </tr>

@@ -1,7 +1,7 @@
 <?php
 namespace Msc;
 
-include 'bootstrap.php';
+include 'library/bootstrap.php';
 
 class Front_Check
 {

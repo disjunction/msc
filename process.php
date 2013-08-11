@@ -1,7 +1,7 @@
 <?php
 namespace Msc;
 
-include 'bootstrap.php';
+include 'library/bootstrap.php';
 set_time_limit(0);
 
 /**
@@ -11,11 +11,11 @@ class Front_Process
 {
     
     public static function spawnProcesses() {
-        exec('ps aux | grep process.php', $result);
-        if (count($result) > 3) {
+        exec('ps aux | grep process.php | grep -v grep | grep -v bin/sh', $result);
+        if (count($result) > 1) {
             die("already running\n");
         }
-
+        
         $in = new FileRepo('in');
         foreach ($in->getAllFilenames() as $fileName) {
             $fileTask = new FileTask('data/in/' . $fileName, 'data/out/' . $fileName);
