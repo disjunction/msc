@@ -27,10 +27,23 @@ class FileProcessor
         $in = fopen($task->infile, 'r');
         $markers = fgetcsv($in);
         
-        $out = fopen($task->outfile, 'w');
-        fputcsv($out, $markers);
-        fflush($out);
+        $processed = $task->getProcessed();
         
+        // if file was already processed, then seek last position and append new data
+        if ($processed > 0) {
+            for ($i = 0; $i < $processed - 2; $i++) {
+                if (!fgetcsv($in)) {
+                    throw new Exception('processed more than planned in ' . $task->outfile);
+                }
+            }
+            $out = fopen($task->outfile, 'a');
+        // else create the file and write the header
+        } else {
+            $out = fopen($task->outfile, 'w');
+            fputcsv($out, $markers);
+            fflush($out);
+        }
+                
         while ($line = fgetcsv($in)) {
             try {
                 $site = $line[$task->getInColumn()];
