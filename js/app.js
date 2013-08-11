@@ -41,7 +41,7 @@ function TasksController($scope, $http) {
     };
 
     
-    setInterval($scope.loadList, 2000);
+    setInterval($scope.loadList, 3000);
     
     $scope.remove = function(task) {
         //console.log( Array.prototype.slice.call(arguments));
